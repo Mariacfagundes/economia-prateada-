@@ -181,9 +181,9 @@ elif aba == "Hotspots Econômicos":
     """)
 
     # Verifica se há dados após o filtro
-    if df_filtrado.empty:
+if df_filtrado.empty:
         st.warning("Nenhum município atende aos critérios selecionados.")
-    else:
+else:
         # Define critérios para destacar hotspots
         envelhecimento_corte = df_filtrado["Índice de envelhecimento"].quantile(0.75)
         renda_corte = df_filtrado["Renda média 60+"].quantile(0.75)
@@ -234,7 +234,6 @@ elif aba == "Oportunidades Emergentes":
     filtro = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False)
     st.dataframe(filtro.head(20))
 
-    # 👩‍💻 Aba 6: Sobre a Autora
 # 👩‍💻 Aba 6: Sobre a Autora
 elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
@@ -263,6 +262,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

@@ -28,7 +28,7 @@ aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômi
 if aba == "Mapa Interativo":
     st.subheader("🗺️ Mapa Interativo de Envelhecimento")
     fig = px.choropleth(df,
-        geojson="municipios.geojson",  # Substitua pelo seu arquivo de geometria
+        geojson="municipios.geojson.json",  # Substitua pelo seu arquivo de geometria
         locations="Município",
         color="Índice de envelhecimento",
         hover_name="Município",
@@ -57,3 +57,4 @@ elif aba == "Oportunidades Emergentes":
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     # Espaço para gráfico de linha ou mapa filtrado
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+

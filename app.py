@@ -85,7 +85,7 @@ if df_filtrado.empty:
 aba = st.sidebar.radio("Escolha uma aba", [
     "Apresentação", "Indicadores Gerais", "Ranking de Envelhecimento",
     "Hotspots Econômicos", "Índice Prateado", "Oportunidades Emergentes",
-    "Mapa Interativo", "Sobre a Autora"
+    "Sobre a Autora"  # ✅ Mapa Interativo removido
 ])
 
 # 📘 Aba 1: Apresentação
@@ -300,47 +300,7 @@ elif aba == "Oportunidades Emergentes":
     filtro = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False)
     st.dataframe(filtro.head(20))
 
-#👩‍💻 Aba 6: Mapa Interativo
-elif aba == "Mapa Interativo":
-    st.subheader("🗺️ Mapa Interativo da Economia Prateada")
-
-    st.markdown("### 🌍 O que este mapa mostra:")
-    st.markdown("""
-    Cada bolha representa um município, com tamanho proporcional à renda média da população 60+  
-    e cor de acordo com o Índice Prateado — uma métrica composta que sintetiza envelhecimento, renda e estrutura familiar.
-    """)
-
-    if df_filtrado.empty or df_filtrado["latitude"].isna().all() or df_filtrado["longitude"].isna().all():
-        st.warning("⚠️ Não há dados geográficos disponíveis para exibir o mapa.")
-    else:
-        df_mapa = df_filtrado.dropna(subset=["latitude", "longitude"]).copy()
-
-        if "Índice Prateado" not in df_mapa.columns:
-            df_mapa["IE_norm"] = (df_mapa["Índice de envelhecimento"] - df_mapa["Índice de envelhecimento"].min()) / (df_mapa["Índice de envelhecimento"].max() - df_mapa["Índice de envelhecimento"].min())
-            df_mapa["Renda_norm"] = (df_mapa["Renda média 60+"] - df_mapa["Renda média 60+"].min()) / (df_mapa["Renda média 60+"].max() - df_mapa["Renda média 60+"].min())
-            df_mapa["Casais_norm"] = (df_mapa["Proporção casais sem filhos"] - df_mapa["Proporção casais sem filhos"].min()) / (df_mapa["Proporção casais sem filhos"].max() - df_mapa["Proporção casais sem filhos"].min())
-            df_mapa["Índice Prateado"] = (df_mapa["IE_norm"] + df_mapa["Renda_norm"] + df_mapa["Casais_norm"]) / 3
-
-        fig_map = px.scatter_mapbox(
-            df_mapa,
-            lat="latitude",
-            lon="longitude",
-            size="Renda média 60+",
-            color="Índice Prateado",
-            hover_name="Município",
-            hover_data=["UF", "Índice de envelhecimento", "Renda média 60+", "Proporção casais sem filhos"],
-            color_continuous_scale="Viridis",
-            size_max=20,
-            zoom=3,
-            height=600
-        )
-
-        fig_map.update_layout(mapbox_style="carto-positron")
-        fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-
-        st.plotly_chart(fig_map, use_container_width=True)
-
-# 👩‍💻 Aba 7: Sobre a Autora
+# 👩‍💻 Aba 6: Sobre a Autora
 elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
 
@@ -368,6 +328,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

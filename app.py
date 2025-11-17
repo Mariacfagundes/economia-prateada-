@@ -17,7 +17,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 🎯 Título
+st.markdown("""
+<div style='font-size: 18px; line-height: 1.6'>
 <strong>"O Impacto do Envelhecimento Populacional no Brasil"</strong>,
+</div>
+""", unsafe_allow_html=True)
 
 # 📁 Carregar dados
 @st.cache_data
@@ -225,6 +229,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

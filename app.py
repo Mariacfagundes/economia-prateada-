@@ -169,7 +169,8 @@ elif aba == "Indicadores Gerais":
     col1, col2, col3 = st.columns(3)
     col1.metric("📈 Média do Índice de Envelhecimento", f"{media_ie:.1f}")
     col2.metric("💰 Renda Média 60+", f"R$ {media_renda:,.0f}")
-    col3.metric("🏘️ Total de Municípios", f"{len(df_filtrado)}")
+    col3.metric("🏘️ Nº de Municípios com dados disponíveis", f"{len(df_filtrado)}")
+    st.caption("Este número representa os municípios que atendem aos filtros selecionados.")
     
     st.markdown("Distribuição da renda média da população 60+:")
     fig_hist = px.histogram(df_filtrado, x="Renda média 60+", nbins=30, color_discrete_sequence=["#636EFA"])
@@ -368,6 +369,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

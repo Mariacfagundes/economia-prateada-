@@ -56,8 +56,13 @@ df = df.dropna(subset=["UF"]).copy()
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].dropna().unique())
 uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + list(ufs))
-renda_maxima = int(df["Renda média 60+"].dropna().max())
-renda_min = st.sidebar.slider("💰 Renda média mínima (60+)", 0, renda_maxima, 0)
+renda_max = df["Renda média 60+"].dropna().max()
+
+if pd.isna(renda_max):
+    st.error("❌ Nenhum valor válido encontrado na coluna 'Renda média 60+'. Verifique o CSV.")
+else:
+    renda_maxima = int(renda_max)
+    renda_min = st.sidebar.slider("💰 Renda média mínima (60+)", 0, renda_maxima, 0)
 
 if st.sidebar.button("🔄 Limpar filtros"):
     st.experimental_rerun()
@@ -362,6 +367,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

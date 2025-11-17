@@ -29,8 +29,9 @@ st.markdown("""
 # 📁 Carregar dados
 @st.cache_data
 def carregar_dados():
-    df = pd.read_csv("dados_com_geo.csv", encoding="utf-8")
-    
+    return pd.read_csv("dados_com_geo.csv", encoding="utf-8")
+
+# 🔄 Chama a função e limpa os dados
 df = carregar_dados()
 df.columns = df.columns.str.strip()
 df["Município"] = df["Município"].str.strip().str.lower()
@@ -358,6 +359,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

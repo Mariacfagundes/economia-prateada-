@@ -27,7 +27,7 @@ aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômi
 # 🗺️ Aba 1: Mapa Interativo
 if aba == "Mapa Interativo":
     st.subheader("🗺️ Mapa Interativo de Envelhecimento")
-   import json
+import json
 
 # Carregar o arquivo GeoJSON corretamente
 with open("municipios.geojson", encoding="utf-8") as f:
@@ -65,5 +65,6 @@ elif aba == "Oportunidades Emergentes":
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     # Espaço para gráfico de linha ou mapa filtrado
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 

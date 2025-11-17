@@ -36,16 +36,6 @@ Construir uma ferramenta interativa que permita identificar municípios com alto
 
 1. Clone o repositório:
 
-## Indicadores utilizados
-
-- Índice de envelhecimento
-- Proporção de casais sem filhos
-- Renda média da população com 60 anos ou mais
-
-## Como rodar o projeto localmente
-
-1. Clone o repositório:
-
 git clone https://github.com/seu-usuario/economia-prateada.git
 
 2. Instale as dependências:
@@ -66,3 +56,4 @@ streamlit run app.py
 ## Autora
 
 Maria Clara Fagundes – Salvador, BA
+

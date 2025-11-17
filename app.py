@@ -33,7 +33,6 @@ df["UF"] = (
     .astype(str)
     .map(uf_map)
 )
-st.write("UFs únicas:", df["UF"].unique())
 # 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].dropna().astype(str).unique())
@@ -145,6 +144,7 @@ elif aba == "Sobre a Autora":
     📧 luzfaghundes@gmail.com  
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
+
 
 
 

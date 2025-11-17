@@ -25,7 +25,7 @@ df = carregar_dados()
 # 📁 Carregar geometria dos municípios
 @st.cache_data
 def carregar_geojson():
-    with open("municipios.geojson.json", encoding="utf-8") as f:
+    with open("municipios.geojson", encoding="utf-8") as f:
         geojson_data = json.load(f)
     return geojson_data
 
@@ -69,3 +69,4 @@ elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+

@@ -16,6 +16,7 @@ df = carregar_dados()
 df["Município"] = df["Município"].str.strip().str.lower()
 
 # 🎛️ Filtros interativos
+st.write("Colunas do DataFrame:", df.columns.tolist())
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].unique())
 uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + ufs)
@@ -126,5 +127,6 @@ elif aba == "Sobre a Autora":
     📧 luzfaghundes@gmail.com  
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
+
 
 

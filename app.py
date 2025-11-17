@@ -28,6 +28,41 @@ st.markdown("""
 def carregar_dados():
     return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
 
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+
+@st.cache_data
+def geocodificar_municipios(df):
+    geolocator = Nominatim(user_agent="economia_prateada")
+    geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+
+    latitudes = []
+    longitudes = []
+
+    for _, row in df.iterrows():
+        nome = row["Município"].title()
+        uf = row["UF"]
+        local = f"{nome}, {uf}, Brasil"
+        try:
+            location = geocode(local)
+            if location:
+                latitudes.append(location.latitude)
+                longitudes.append(location.longitude)
+            else:
+                latitudes.append(None)
+                longitudes.append(None)
+        except:
+            latitudes.append(None)
+            longitudes.append(None)
+
+    df["latitude"] = latitudes
+    df["longitude"] = longitudes
+    return df
+
+# ⚠️ Só adiciona se ainda não tiver latitude/longitude
+if "latitude" not in df.columns or "longitude" not in df.columns:
+    df = geocodificar_municipios(df)
+
 df = carregar_dados()
 df.columns = df.columns.str.strip()
 df["Município"] = df["Município"].str.strip().str.lower()
@@ -69,7 +104,8 @@ if df_filtrado.empty:
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", [
     "Apresentação", "Indicadores Gerais", "Ranking de Envelhecimento",
-    "Hotspots Econômicos", "Índice Prateado", "Oportunidades Emergentes", "Sobre a Autora"
+    "Hotspots Econômicos", "Índice Prateado", "Oportunidades Emergentes",
+    "Mapa Interativo", "Sobre a Autora"
 ])
 
 # 📘 Aba 1: Apresentação
@@ -284,7 +320,47 @@ elif aba == "Oportunidades Emergentes":
     filtro = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False)
     st.dataframe(filtro.head(20))
 
-# 👩‍💻 Aba 6: Sobre a Autora
+# 👩‍💻 Aba 6: Mapa Interativo
+elif aba == "Mapa Interativo":
+    st.subheader("🗺️ Mapa Interativo da Economia Prateada")
+
+    st.markdown("### 🌍 O que este mapa mostra:")
+    st.markdown("""
+    Cada bolha representa um município, com tamanho proporcional à renda média da população 60+  
+    e cor de acordo com o Índice Prateado — uma métrica composta que sintetiza envelhecimento, renda e estrutura familiar.
+    """)
+
+    if df_filtrado.empty:
+        st.warning("Nenhum município atende aos critérios selecionados.")
+    else:
+        df_filtrado = df_filtrado.copy()
+
+        if "Índice Prateado" not in df_filtrado.columns:
+            df_filtrado["IE_norm"] = (df_filtrado["Índice de envelhecimento"] - df_filtrado["Índice de envelhecimento"].min()) / (df_filtrado["Índice de envelhecimento"].max() - df_filtrado["Índice de envelhecimento"].min())
+            df_filtrado["Renda_norm"] = (df_filtrado["Renda média 60+"] - df_filtrado["Renda média 60+"].min()) / (df_filtrado["Renda média 60+"].max() - df_filtrado["Renda média 60+"].min())
+            df_filtrado["Casais_norm"] = (df_filtrado["Proporção casais sem filhos"] - df_filtrado["Proporção casais sem filhos"].min()) / (df_filtrado["Proporção casais sem filhos"].max() - df_filtrado["Proporção casais sem filhos"].min())
+            df_filtrado["Índice Prateado"] = (df_filtrado["IE_norm"] + df_filtrado["Renda_norm"] + df_filtrado["Casais_norm"]) / 3
+
+        fig_map = px.scatter_mapbox(
+            df_filtrado.dropna(subset=["latitude", "longitude"]),
+            lat="latitude",
+            lon="longitude",
+            size="Renda média 60+",
+            color="Índice Prateado",
+            hover_name="Município",
+            hover_data=["UF", "Índice de envelhecimento", "Renda média 60+", "Proporção casais sem filhos"],
+            color_continuous_scale="Viridis",
+            size_max=20,
+            zoom=3,
+            height=600
+        )
+
+        fig_map.update_layout(mapbox_style="carto-positron")
+        fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
+        st.plotly_chart(fig_map, use_container_width=True)
+
+# 👩‍💻 Aba 7: Sobre a Autora
 elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
 
@@ -312,6 +388,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

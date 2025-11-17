@@ -199,8 +199,9 @@ elif aba == "Oportunidades Emergentes":
     # 👩‍💻 Aba 6: Sobre a Autora
 elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
+    st.markdown("...")
 
-    st.markdown("""
+
     <div style='font-size: 18px; line-height: 1.6'>
     <strong>Maria Clara Fagundes</strong>  
     📍 <em>Salvador, Bahia</em>  
@@ -219,12 +220,15 @@ elif aba == "Sobre a Autora":
     </div>
     """, unsafe_allow_html=True)
     
-    # 📌 Rodapé
-   st.markdown("---")
-   st.markdown("""
-   <div style='text-align: center; font-size: 16px;'>
-  📊 <strong>Desenvolvido por Maria Clara Fagundes</strong>  
-  Desafio <em>Economia Prateada</em> • 2025
-  </div>
+  # 📌 Rodapé (fora de qualquer bloco)
+st.markdown("---")
+st.markdown("""
+<div style='text-align: center; font-size: 16px;'>
+📊 <strong>Desenvolvido por Maria Clara Fagundes</strong>  
+Desafio <em>Economia Prateada</em> • 2025
+</div>
 """, unsafe_allow_html=True)
+
+
+
 

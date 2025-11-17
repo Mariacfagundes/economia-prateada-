@@ -102,7 +102,7 @@ aba = st.sidebar.radio("Escolha uma aba", [
 ])
 
 # 📘 Aba: Sobre o Projeto
-if aba == "Sobre o Projeto": 
+if aba == "📘 Sobre o Projeto":
     st.header(" Economia Prateada no Brasil . Contexto e Intenção")
 
     st.markdown("""
@@ -396,6 +396,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

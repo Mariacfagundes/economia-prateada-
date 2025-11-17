@@ -178,7 +178,7 @@ elif aba == "Hotspots Econômicos":
     Os municípios no canto superior direito são verdadeiros **hotspots da Economia Prateada** — alta concentração de idosos com renda e autonomia.
     """)
 
-    hotspot = df_filtrado.sort
+    hotspot = df_filtrado.sort_values(by=["Índice de envelhecimento", "Renda média 60+"], ascending=[False, False])
 
      # 🔍 Aba 5: Oportunidades Emergentes
 elif aba == "Oportunidades Emergentes":
@@ -231,6 +231,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

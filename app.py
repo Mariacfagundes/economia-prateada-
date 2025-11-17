@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import json
 
 st.set_page_config(page_title="Economia Prateada no Brasil", layout="wide")
 
@@ -16,10 +17,19 @@ O Brasil está passando por uma transição demográfica acelerada. Este dashboa
 # 📁 Carregar dados tratados
 @st.cache_data
 def carregar_dados():
-    df = pd.read_csv("dados_final.csv")  # Substitua pelo seu arquivo final
+    df = pd.read_csv("dados_final.csv")
     return df
 
 df = carregar_dados()
+
+# 📁 Carregar geometria dos municípios
+@st.cache_data
+def carregar_geojson():
+    with open("municipios.geojson", encoding="utf-8") as f:
+        geojson_data = json.load(f)
+    return geojson_data
+
+geojson_data = carregar_geojson()
 
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômicos", "Oportunidades Emergentes"])
@@ -27,29 +37,23 @@ aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômi
 # 🗺️ Aba 1: Mapa Interativo
 if aba == "Mapa Interativo":
     st.subheader("🗺️ Mapa Interativo de Envelhecimento")
-import json
-
-# Carregar o arquivo GeoJSON corretamente
-with open("municipios.geojson", encoding="utf-8") as f:
-    geojson_data = json.load(f)
-
-fig = px.choropleth(
-    df,
-    geojson=geojson_data,
-    locations="Municipio",
-    featureidkey="properties.name",  # ou ajuste conforme o nome do campo no seu GeoJSON
-    
-    color="Índice de envelhecimento",
-    hover_name="Município",
-    color_continuous_scale="Viridis"
-)
+    fig = px.choropleth(
+        df,
+        geojson=geojson_data,
+        locations="Município",
+        featureidkey="properties.NM_MUN",  # ajuste conforme seu GeoJSON
+        color="Índice de envelhecimento",
+        hover_name="Município",
+        color_continuous_scale="Viridis"
+    )
     fig.update_geos(fitbounds="locations", visible=False)
     st.plotly_chart(fig, use_container_width=True)
 
 # 📈 Aba 2: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
-    fig2 = px.scatter(df,
+    fig2 = px.scatter(
+        df,
         x="Índice de envelhecimento",
         y="Proporção casais sem filhos",
         size="Renda média 60+",
@@ -64,10 +68,4 @@ elif aba == "Hotspots Econômicos":
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
-    # Espaço para gráfico de linha ou mapa filtrado
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
-
-
-
-
-

@@ -201,12 +201,14 @@ elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
     st.markdown("...")
 
-
-    <div style='font-size: 18px; line-height: 1.6'>
-    <strong>Maria Clara Fagundes</strong>  
-    📍 <em>Salvador, Bahia</em>  
-    💼 <em>Engenheira de Dados</em>  
-    <br><br>
+    st.markdown("""
+<div style='font-size: 18px; line-height: 1.6'>
+<strong>Maria Clara Fagundes</strong><br>
+<span>📍 <em>Salvador, Bahia</em></span><br>
+💼 <em>Engenheira de Dados</em><br><br>
+...
+</div>
+""", unsafe_allow_html=True)
     Apaixonada por transformar dados públicos em soluções estratégicas e acessíveis.  
     Atua na interseção entre tecnologia, impacto social e inteligência territorial.  
     <br><br>
@@ -228,6 +230,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

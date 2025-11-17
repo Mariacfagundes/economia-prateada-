@@ -170,6 +170,7 @@ elif aba == "Ranking de Envelhecimento":
 
 # 📈 Aba 4: Hotspots Econômicos
 
+# 📈 Aba 4: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
 
@@ -182,14 +183,20 @@ elif aba == "Hotspots Econômicos":
     if df_filtrado.empty:
         st.warning("Nenhum município atende aos critérios selecionados.")
     else:
+        # Garante que df_filtrado seja uma cópia segura
+        df_filtrado = df_filtrado.copy()
+
+        # Define os cortes para destacar os hotspots
         envelhecimento_corte = df_filtrado["Índice de envelhecimento"].quantile(0.75)
         renda_corte = df_filtrado["Renda média 60+"].quantile(0.75)
 
+        # Cria a coluna de destaque
         df_filtrado["Hotspot"] = df_filtrado.apply(
             lambda row: "🔥 Hotspot" if row["Índice de envelhecimento"] >= envelhecimento_corte and row["Renda média 60+"] >= renda_corte else "Outros",
             axis=1
         )
 
+        # Gera o gráfico
         fig2 = px.scatter(
             df_filtrado,
             x="Índice de envelhecimento",
@@ -206,7 +213,8 @@ elif aba == "Hotspots Econômicos":
             height=600
         )
 
-        st.plotly_chart(fig2, use_container_width=True))
+        st.plotly_chart(fig2, use_container_width=True)
+        
      # 🔍 Aba 5: Oportunidades Emergentes
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
@@ -257,6 +265,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

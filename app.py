@@ -31,6 +31,19 @@ st.markdown("""
 def carregar_dados():
    return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
 
+df = carregar_dados()
+df.columns = df.columns.str.strip()
+
+# Remove coluna redundante
+if "nome" in df.columns:
+    df.drop(columns=["nome"], inplace=True)
+
+# Formata colunas
+df["Município"] = df["Município"].str.strip().str.title()
+df["Renda média 60+"] = pd.to_numeric(df["Renda média 60+"], errors="coerce")
+df["Índice de envelhecimento"] = pd.to_numeric(df["Índice de envelhecimento"], errors="coerce")
+df["Proporção casais sem filhos"] = pd.to_numeric(df["Proporção casais sem filhos"], errors="coerce")
+
 # 🔄 Chama a função e limpa os dados
 df = carregar_dados()
 df.columns = df.columns.str.strip()
@@ -157,8 +170,8 @@ elif aba == "Indicadores Gerais":
     col1, col2, col3 = st.columns(3)
     col1.metric("📈 Média do Índice de Envelhecimento", f"{media_ie:.1f}")
     col2.metric("💰 Renda Média 60+", f"R$ {media_renda:,.0f}")
-    col3.metric("🏘️ Municípios Analisados", f"{len(df_filtrado)}")
-
+    col3.metric("🏘️ Total de Municípios", f"{len(df_filtrado)}")
+    
     st.markdown("Distribuição da renda média da população 60+:")
     fig_hist = px.histogram(df_filtrado, x="Renda média 60+", nbins=30, color_discrete_sequence=["#636EFA"])
     st.plotly_chart(fig_hist, use_container_width=True)
@@ -243,6 +256,11 @@ elif aba == "Índice Prateado":
 
     st.markdown("### 🧠 O que este índice revela:")
     st.markdown("""
+    st.markdown("""
+📖 **Como interpretar o Índice Prateado:**  
+O Índice Prateado varia de 0 a 1 e representa o potencial estratégico de um município na Economia Prateada.  
+**Quanto mais próximo de 1, melhores são as condições de vida e oportunidades para a população 60+.**
+""")
     O Índice Prateado foi criado para sintetizar três dimensões fundamentais da Economia Prateada:
 
     - **Envelhecimento**: revela a proporção de idosos em relação aos jovens  
@@ -268,6 +286,12 @@ elif aba == "Índice Prateado":
 
         # Top 20 municípios
         top_prateado = df_filtrado.sort_values("Índice Prateado", ascending=False).head(20)
+        # Arredonda os índices para 3 casas decimais
+top_prateado = top_prateado.round({
+    "Índice Prateado": 3,
+    "Índice de envelhecimento": 3,
+    "Proporção casais sem filhos": 3
+})
 
         fig_prateado = px.bar(
             top_prateado,
@@ -336,6 +360,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

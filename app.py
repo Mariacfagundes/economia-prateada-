@@ -169,8 +169,6 @@ elif aba == "Ranking de Envelhecimento":
     st.dataframe(top_ie)
 
 # 📈 Aba 4: Hotspots Econômicos
-
-# 📈 Aba 4: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
 
@@ -214,8 +212,57 @@ elif aba == "Hotspots Econômicos":
         )
 
         st.plotly_chart(fig2, use_container_width=True)
+
+# 💎 Aba 5: Índice Prateado
+elif aba == "Índice Prateado":
+    st.subheader("💎 Índice Composto da Economia Prateada")
+
+    st.markdown("### 🧠 O que este índice revela:")
+    st.markdown("""
+    O Índice Prateado foi criado para sintetizar três dimensões fundamentais da Economia Prateada:
+
+    - **Envelhecimento**: revela a proporção de idosos em relação aos jovens  
+    - **Renda média 60+**: indica o poder de consumo da população idosa  
+    - **Estrutura familiar**: mostra o grau de autonomia e demanda por serviços personalizados  
+
+    Ao normalizar e combinar esses fatores, o índice permite identificar os municípios com maior potencial estratégico.  
+    Essa métrica facilita comparações objetivas e orienta decisões públicas e privadas voltadas à longevidade, inovação social e investimentos.
+    """)
+
+    if df_filtrado.empty:
+        st.warning("Nenhum município atende aos critérios selecionados.")
+    else:
+        df_filtrado = df_filtrado.copy()
+
+        # Normaliza os indicadores
+        df_filtrado["IE_norm"] = (df_filtrado["Índice de envelhecimento"] - df_filtrado["Índice de envelhecimento"].min()) / (df_filtrado["Índice de envelhecimento"].max() - df_filtrado["Índice de envelhecimento"].min())
+        df_filtrado["Renda_norm"] = (df_filtrado["Renda média 60+"] - df_filtrado["Renda média 60+"].min()) / (df_filtrado["Renda média 60+"].max() - df_filtrado["Renda média 60+"].min())
+        df_filtrado["Casais_norm"] = (df_filtrado["Proporção casais sem filhos"] - df_filtrado["Proporção casais sem filhos"].min()) / (df_filtrado["Proporção casais sem filhos"].max() - df_filtrado["Proporção casais sem filhos"].min())
+
+        # Índice composto
+        df_filtrado["Índice Prateado"] = (df_filtrado["IE_norm"] + df_filtrado["Renda_norm"] + df_filtrado["Casais_norm"]) / 3
+
+        # Top 20 municípios
+        top_prateado = df_filtrado.sort_values("Índice Prateado", ascending=False).head(20)
+
+        fig_prateado = px.bar(
+            top_prateado,
+            x="Município",
+            y="Índice Prateado",
+            color="Renda média 60+",
+            title="Top 20 municípios no Índice Prateado",
+            labels={"Índice Prateado": "Índice Composto da Economia Prateada"},
+            height=600
+        )
+
+        st.plotly_chart(fig_prateado, use_container_width=True)
+
+        st.markdown("### 📊 Detalhamento dos municípios:")
+        st.dataframe(top_prateado[[
+            "Município", "UF", "Índice Prateado",
+            "Índice de envelhecimento", "Renda média 60+", "Proporção casais sem filhos"
+        ]])
         
-     # 🔍 Aba 5: Oportunidades Emergentes
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
 
@@ -265,6 +312,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

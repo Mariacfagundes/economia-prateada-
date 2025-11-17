@@ -46,7 +46,7 @@ if aba == "Mapa Interativo":
         df,
         geojson=geojson_data,
         locations="Município",
-        featureidkey="properties.NM_MUN",  # ajuste conforme seu GeoJSON
+        featureidkey="properties.name"  # ajuste conforme seu GeoJSON
         color="Índice de envelhecimento",
         hover_name="Município",
         color_continuous_scale="Viridis"
@@ -74,5 +74,6 @@ elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 

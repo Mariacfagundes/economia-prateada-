@@ -102,7 +102,7 @@ aba = st.sidebar.radio("Escolha uma aba", [
 ])
 
 # 📘 Aba: Sobre o Projeto
-if aba == " Sobre o Projeto":
+if aba == "Sobre o Projeto": 
     st.header(" Economia Prateada no Brasil . Contexto e Intenção")
 
     st.markdown("""
@@ -114,7 +114,7 @@ Mais do que um painel de dados, este projeto é uma **ferramenta de antecipaçã
 
 ---
 
-###  O que o projeto revela
+### O que o projeto revela
 
 Ao cruzar três indicadores-chave — **Índice de Envelhecimento**, **Renda média da população 60+**, e **Proporção de casais sem filhos** — o dashboard constrói uma visão territorial da Economia Prateada:
 
@@ -124,7 +124,7 @@ Ao cruzar três indicadores-chave — **Índice de Envelhecimento**, **Renda mé
 
 ---
 
-###  Onde isso impacta
+### Onde isso impacta
 
 Este projeto impacta diretamente três frentes:
 
@@ -139,12 +139,13 @@ A mudança na estrutura domiciliar — mais casais sem filhos e idosos vivendo s
 
 ---
 
-###  Conclusão
+### Conclusão
 
 A Economia Prateada não é apenas uma consequência do envelhecimento — é uma **janela estratégica de transformação social e econômica**. Este projeto transforma dados em decisões, mapas em oportunidades, e estatísticas em histórias de futuro.
 
 Você não está apenas vendo números. Está enxergando o Brasil que está por vir — e decidindo como agir agora.
 """)
+    
 # 📊 Aba 2: Indicadores Gerais
 elif aba == "Indicadores Gerais":
     st.subheader("📊 Indicadores Gerais")
@@ -395,6 +396,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

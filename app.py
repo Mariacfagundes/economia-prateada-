@@ -23,42 +23,29 @@ def carregar_dados():
 df = carregar_dados()
 
 # 📁 Carregar geometria dos municípios
+import geopandas as gpd
+
 @st.cache_data
 def carregar_geojson():
-    with open("municipios.geojson", encoding="utf-8") as f:
-        geojson_data = json.load(f)
-    return geojson_data
+    gdf = gpd.read_file("municipios.geojson")
+    return gdf
 
-geojson_data = carregar_geojson()
+gdf = carregar_geojson()
 
 # Padronizar nomes
 df["Município"] = df["Município"].str.strip().str.lower()
-for feature in geojson_data["features"]:
-    feature["properties"]["name"] = feature["properties"]["name"].strip().lower()
+gdf["name"] = gdf["name"].str.strip().str.lower()
 
-# 🗂️ Menu de navegação
-aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômicos", "Oportunidades Emergentes"])
+# Juntar os dados
+gdf = gdf.merge(df, left_on="name", right_on="Município")
 
-# Diagnóstico: verificar se os nomes batem
-nomes_csv = set(df["Município"])
-nomes_geojson = set([f["properties"]["name"] for f in geojson_data["features"]])
-intersecao = nomes_csv.intersection(nomes_geojson)
-
-st.write(f"Municípios no CSV: {len(nomes_csv)}")
-st.write(f"Municípios no GeoJSON: {len(nomes_geojson)}")
-st.write(f"Municípios em comum: {len(intersecao)}")
-
-if len(intersecao) == 0:
-    st.error("⚠️ Nenhum município do CSV foi encontrado no GeoJSON. Verifique se os nomes estão padronizados corretamente.")
-
-# 🗺️ Aba 1: Mapa Interativo
+# Mapa com geometria do GeoDataFrame
 if aba == "Mapa Interativo":
     st.subheader("🗺️ Mapa Interativo de Envelhecimento")
     fig = px.choropleth(
-        df,
-        geojson=geojson_data,
-        locations="Município",
-        featureidkey="properties.name",  # ajuste conforme seu GeoJSON
+        gdf,
+        geojson=gdf.geometry,
+        locations=gdf.index,
         color="Índice de envelhecimento",
         hover_name="Município",
         color_continuous_scale="Viridis"
@@ -86,6 +73,7 @@ elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 
 

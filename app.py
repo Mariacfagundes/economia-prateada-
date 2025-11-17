@@ -25,7 +25,14 @@ uf_map = {
     "41": "PR", "42": "SC", "43": "RS",
     "50": "MS", "51": "MT", "52": "GO", "53": "DF"
 }
-df["UF"] = df["UF"].astype(float).astype(int).astype(str).map(uf_map)
+df["UF"] = (
+    df["UF"]
+    .dropna()  # remove valores nulos
+    .astype(float)
+    .astype(int)
+    .astype(str)
+    .map(uf_map)
+)
 st.write("UFs únicas:", df["UF"].unique())
 # 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
@@ -138,6 +145,7 @@ elif aba == "Sobre a Autora":
     📧 luzfaghundes@gmail.com  
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
+
 
 
 

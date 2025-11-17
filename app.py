@@ -15,14 +15,6 @@ O Brasil está passando por uma transição demográfica acelerada. Este dashboa
 """)
 
 # 📁 Carregar dados tratados
-@st.cache_data
-def carregar_dados():
-    df = pd.read_csv("dados_final.csv")
-    return df
-
-df = carregar_dados()
-
-# 📁 Carregar geometria dos municípios
 import geopandas as gpd
 
 @st.cache_data
@@ -39,12 +31,12 @@ gdf["name"] = gdf["name"].str.strip().str.lower()
 # Juntar os dados
 gdf = gdf.merge(df, left_on="name", right_on="Município")
 
-# Mapa com geometria do GeoDataFrame
+# Mapa interativo
 if aba == "Mapa Interativo":
     st.subheader("🗺️ Mapa Interativo de Envelhecimento")
     fig = px.choropleth(
         gdf,
-        geojson=gdf.geometry,
+        geojson=gdf.set_geometry("geometry"),
         locations=gdf.index,
         color="Índice de envelhecimento",
         hover_name="Município",
@@ -73,6 +65,7 @@ elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 
 

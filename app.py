@@ -250,25 +250,25 @@ elif aba == "Hotspots Econômicos":
         st.plotly_chart(fig2, use_container_width=True)
 
 # 💎 Aba 5: Índice Prateado
+# 💎 Aba 5: Índice Prateado
 elif aba == "Índice Prateado":
     st.subheader("💎 Índice Composto da Economia Prateada")
 
     st.markdown("### 🧠 O que este índice revela:")
     st.markdown("""
-    st.markdown("""
-      📖 **Como interpretar o Índice Prateado:**  
-      O Índice Prateado varia de 0 a 1 e representa o potencial estratégico de um município na Economia Prateada.  
-      **Quanto mais próximo de 1, melhores são as condições de vida e oportunidades para a população 60+.**
+📖 **Como interpretar o Índice Prateado:**  
+O Índice Prateado varia de 0 a 1 e representa o potencial estratégico de um município na Economia Prateada.  
+**Quanto mais próximo de 1, melhores são as condições de vida e oportunidades para a população 60+.**
+
+O Índice Prateado foi criado para sintetizar três dimensões fundamentais da Economia Prateada:
+
+- **Envelhecimento**: revela a proporção de idosos em relação aos jovens  
+- **Renda média 60+**: indica o poder de consumo da população idosa  
+- **Estrutura familiar**: mostra o grau de autonomia e demanda por serviços personalizados  
+
+Ao normalizar e combinar esses fatores, o índice permite identificar os municípios com maior potencial estratégico.  
+Essa métrica facilita comparações objetivas e orienta decisões públicas e privadas voltadas à longevidade, inovação social e investimentos.
 """)
-    O Índice Prateado foi criado para sintetizar três dimensões fundamentais da Economia Prateada:
-
-    - **Envelhecimento**: revela a proporção de idosos em relação aos jovens  
-    - **Renda média 60+**: indica o poder de consumo da população idosa  
-    - **Estrutura familiar**: mostra o grau de autonomia e demanda por serviços personalizados  
-
-    Ao normalizar e combinar esses fatores, o índice permite identificar os municípios com maior potencial estratégico.  
-    Essa métrica facilita comparações objetivas e orienta decisões públicas e privadas voltadas à longevidade, inovação social e investimentos.
-    """)
 
     if df_filtrado.empty:
         st.warning("Nenhum município atende aos critérios selecionados.")
@@ -285,13 +285,22 @@ elif aba == "Índice Prateado":
 
         # Top 20 municípios
         top_prateado = df_filtrado.sort_values("Índice Prateado", ascending=False).head(20)
-        # Arredonda os índices para 3 casas decimais
-top_prateado = top_prateado.round({
-    "Índice Prateado": 3,
-    "Índice de envelhecimento": 3,
-    "Proporção casais sem filhos": 3
-})
 
+        # Formata os nomes dos municípios
+        top_prateado["Município"] = top_prateado["Município"].str.title()
+
+        # Remove coluna redundante se existir
+        if "nome" in top_prateado.columns:
+            top_prateado.drop(columns=["nome"], inplace=True)
+
+        # Arredonda os índices para 3 casas decimais
+        top_prateado = top_prateado.round({
+            "Índice Prateado": 3,
+            "Índice de envelhecimento": 3,
+            "Proporção casais sem filhos": 3
+        })
+
+        # Gráfico
         fig_prateado = px.bar(
             top_prateado,
             x="Município",
@@ -304,12 +313,12 @@ top_prateado = top_prateado.round({
 
         st.plotly_chart(fig_prateado, use_container_width=True)
 
+        # Tabela detalhada
         st.markdown("### 📊 Detalhamento dos municípios:")
         st.dataframe(top_prateado[[
             "Município", "UF", "Índice Prateado",
             "Índice de envelhecimento", "Renda média 60+", "Proporção casais sem filhos"
         ]])
-        
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
 
@@ -359,6 +368,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

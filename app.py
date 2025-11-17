@@ -231,6 +231,7 @@ Municípios com alto índice de envelhecimento demandam políticas públicas e s
         # Tabela
         st.markdown("### 📊 Detalhamento dos municípios:")
         st.dataframe(ranking[["Município", "UF", "Índice de envelhecimento"]])
+        
 # 📈 Aba 4: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
@@ -276,7 +277,6 @@ elif aba == "Hotspots Econômicos":
 
         st.plotly_chart(fig2, use_container_width=True)
 
-# 💎 Aba 5: Índice Prateado
 # 💎 Aba 5: Índice Prateado
 elif aba == "Índice Prateado":
     st.subheader("💎 Índice Composto da Economia Prateada")
@@ -395,6 +395,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

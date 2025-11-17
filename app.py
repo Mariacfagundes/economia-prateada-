@@ -197,28 +197,23 @@ elif aba == "Oportunidades Emergentes":
     st.dataframe(filtro.head(20))
 
     # 👩‍💻 Aba 6: Sobre a Autora
+# 👩‍💻 Aba 6: Sobre a Autora
 elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
-    st.markdown("...")
 
     st.markdown("""
-<div style='font-size: 18px; line-height: 1.6'>
-<strong>Maria Clara Fagundes</strong><br>
-<span>📍 <em>Salvador, Bahia</em></span><br>
-💼 <em>Engenheira de Dados</em><br><br>
-...
-</div>
-""", unsafe_allow_html=True)
-    Apaixonada por transformar dados públicos em soluções estratégicas e acessíveis.  
-    Atua na interseção entre tecnologia, impacto social e inteligência territorial.  
-    <br><br>
-    Este projeto foi desenvolvido como parte do desafio  
-    <strong>“O Impacto do Envelhecimento Populacional no Brasil”</strong>,  
-    com o objetivo de revelar oportunidades sociais e econômicas ligadas à  
-    <strong>Economia Prateada</strong>.
-    <br><br>
-    📧 <a href="mailto:luzfaghundes@gmail.com">luzfaghundes@gmail.com</a>  
-    🔗 <a href="https://www.linkedin.com/in/maria-clara-fagundes-32027680/" target="_blank">LinkedIn</a>  
+    <div style='font-size: 18px; line-height: 1.6'>
+    <strong>Maria Clara Fagundes</strong><br>
+    <em>Salvador, Bahia</em><br>
+    <em>Engenheira de Dados</em><br><br>
+    Apaixonada por transformar dados públicos em soluções estratégicas e acessíveis.<br>
+    Atua na interseção entre tecnologia, impacto social e inteligência territorial.<br><br>
+    Este projeto foi desenvolvido como parte do desafio<br>
+    <strong>"O Impacto do Envelhecimento Populacional no Brasil"</strong>,<br>
+    com o objetivo de revelar oportunidades sociais e econômicas ligadas à<br>
+    <strong>Economia Prateada</strong>.<br><br>
+    📧 <a href="mailto:luzfaghundes@gmail.com">luzfaghundes@gmail.com</a><br>
+    🔗 <a href="https://www.linkedin.com/in/maria-clara-fagundes-32027680/" target="_blank">LinkedIn</a>
     </div>
     """, unsafe_allow_html=True)
     
@@ -230,6 +225,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

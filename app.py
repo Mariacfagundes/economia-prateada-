@@ -169,17 +169,49 @@ elif aba == "Ranking de Envelhecimento":
     st.dataframe(top_ie)
 
 # 📈 Aba 4: Hotspots Econômicos
+import plotly.express as px
+
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
 
     st.markdown("### 🧠 O que este gráfico mostra:")
     st.markdown("""
     Este gráfico cruza três dimensões: envelhecimento, estrutura familiar e renda.  
-    Os municípios no canto superior direito são verdadeiros **hotspots da Economia Prateada** — alta concentração de idosos com renda e autonomia.
+    Os municípios no canto superior direito são verdadeiros hotspots da Economia Prateada — alta concentração de idosos com renda e autonomia.
     """)
 
-    hotspot = df_filtrado.sort_values(by=["Índice de envelhecimento", "Renda média 60+"], ascending=[False, False])
+    # Verifica se há dados após o filtro
+    if df_filtrado.empty:
+        st.warning("Nenhum município atende aos critérios selecionados.")
+    else:
+        # Define critérios para destacar hotspots
+        envelhecimento_corte = df_filtrado["Índice de envelhecimento"].quantile(0.75)
+        renda_corte = df_filtrado["Renda média 60+"].quantile(0.75)
 
+        # Cria uma nova coluna para destacar os hotspots
+        df_filtrado["Hotspot"] = df_filtrado.apply(
+            lambda row: "🔥 Hotspot" if row["Índice de envelhecimento"] >= envelhecimento_corte and row["Renda média 60+"] >= renda_corte else "Outros",
+            axis=1
+        )
+
+        # Gera o gráfico
+        fig2 = px.scatter(
+            df_filtrado,
+            x="Índice de envelhecimento",
+            y="Proporção casais sem filhos",
+            size="Renda média 60+",
+            color="Hotspot",
+            hover_name="Município",
+            title="Dispersão entre envelhecimento, estrutura familiar e renda",
+            labels={
+                "Índice de envelhecimento": "Envelhecimento",
+                "Proporção casais sem filhos": "Casais sem filhos",
+                "Renda média 60+": "Renda média 60+"
+            },
+            height=600
+        )
+
+        st.plotly_chart(fig2, use_container_width=True)
      # 🔍 Aba 5: Oportunidades Emergentes
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
@@ -231,6 +263,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

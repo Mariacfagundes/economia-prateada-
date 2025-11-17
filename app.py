@@ -25,7 +25,7 @@ uf_map = {
     "41": "PR", "42": "SC", "43": "RS",
     "50": "MS", "51": "MT", "52": "GO", "53": "DF"
 }
-df["UF"] = df["UF"].astype(str).str.replace(".0", "", regex=False).map(uf_map)
+df["UF"] = df["UF"].astype(str).str.strip()
 # 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].dropna().astype(str).unique())
@@ -37,6 +37,8 @@ if uf_selecionada != "Todas":
     df_filtrado = df_filtrado[df_filtrado["UF"] == uf_selecionada]
 
 df_filtrado = df_filtrado[df_filtrado["Renda média 60+"] >= renda_min]
+st.write("UF selecionada:", uf_selecionada)
+st.write("Dados filtrados:", df_filtrado)
 
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", [
@@ -137,6 +139,7 @@ elif aba == "Sobre a Autora":
     📧 luzfaghundes@gmail.com  
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
+
 
 
 

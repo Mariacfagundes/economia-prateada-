@@ -67,11 +67,14 @@ else:
 if st.sidebar.button("🔄 Limpar filtros"):
     st.experimental_rerun()
 
-# Aplicar filtros
+# Aplicar filtros com proteção
 df_filtrado = df.copy()
+
 if uf_selecionada != "Todas":
     df_filtrado = df_filtrado[df_filtrado["UF"] == uf_selecionada]
-df_filtrado = df_filtrado[df_filtrado["Renda média 60+"] >= renda_min]
+
+if 'renda_min' in locals() and renda_min is not None:
+    df_filtrado = df_filtrado[df_filtrado["Renda média 60+"] >= renda_min]
 
 # 🔍 Diagnóstico rápido
 if df_filtrado.empty:
@@ -365,6 +368,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

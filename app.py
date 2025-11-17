@@ -182,31 +182,55 @@ elif aba == "Ranking de Envelhecimento":
 
     st.markdown("### 🧠 O que este ranking mostra:")
     st.markdown("""
-    Aqui estão os 20 municípios com maior proporção de idosos em relação aos jovens.  
-    Essas cidades estão na vanguarda da transição demográfica e exigem políticas públicas e soluções de mercado voltadas à longevidade.
-    """)
+Aqui estão os 20 municípios com maior proporção de idosos em relação aos jovens.  
+Essas cidades estão na vanguarda da transição demográfica e exigem políticas públicas e soluções de mercado voltadas à longevidade.
+""")
 
-    mais_envelhecido = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).iloc[0]
-    ranking["Município"] = ranking["Município"].str.title()
-    st.markdown("### 📌 Destaque:")
-    st.markdown(f"""
-    - O município mais envelhecido é **{mais_envelhecido['Município'].title()}**, com índice de **{mais_envelhecido['Índice de envelhecimento']:.1f}**  
-    - Renda média 60+: **R$ {mais_envelhecido['Renda média 60+']:,.0f}**
-    """)
+    st.markdown("""
+📖 **Como interpretar o Índice de Envelhecimento:**  
+O Índice de Envelhecimento representa a razão entre a população idosa (60+) e a população jovem (0 a 14 anos).  
+**Quanto maior o índice, mais envelhecida é a estrutura demográfica do município.**
 
-    top_ie = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).head(20)
-    fig_bar = px.bar(
-        top_ie,
-        x="Município",
-        y="Índice de envelhecimento",
-        color="Renda média 60+",
-        title="Top 20 municípios com maior IE",
-        labels={"Índice de envelhecimento": "Índice de Envelhecimento"},
-    )
-    st.dataframe(ranking[["Município", "UF", "Índice de envelhecimento"]])
-    st.plotly_chart(fig_bar, use_container_width=True)
-    st.dataframe(top_ie)
+Esse indicador revela o avanço da transição demográfica e aponta para desafios e oportunidades em áreas como saúde, mobilidade, habitação, lazer e consumo.  
+Municípios com alto índice de envelhecimento demandam políticas públicas e soluções de mercado voltadas à longevidade e à inclusão da população idosa.
+""")
 
+    if df_filtrado.empty:
+        st.warning("Nenhum município atende aos critérios selecionados.")
+    else:
+        # Top 20 municípios mais envelhecidos
+        ranking = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).head(20)
+
+        # Formata os nomes dos municípios
+        ranking["Município"] = ranking["Município"].str.title()
+
+        # Arredonda o índice
+        ranking["Índice de envelhecimento"] = ranking["Índice de envelhecimento"].round(3)
+
+        # Destaque do município mais envelhecido
+        mais_envelhecido = ranking.iloc[0]
+
+        st.markdown("### 📌 Destaque:")
+        st.markdown(f"""
+- O município mais envelhecido é **{mais_envelhecido['Município']}**, com índice de **{mais_envelhecido['Índice de envelhecimento']:.1f}**  
+- Renda média 60+: **R$ {mais_envelhecido['Renda média 60+']:,.0f}**
+""")
+
+        # Gráfico
+        fig_bar = px.bar(
+            ranking,
+            x="Município",
+            y="Índice de envelhecimento",
+            color="Renda média 60+",
+            title="Top 20 municípios com maior IE",
+            labels={"Índice de envelhecimento": "Índice de Envelhecimento"},
+            height=600
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
+
+        # Tabela
+        st.markdown("### 📊 Detalhamento dos municípios:")
+        st.dataframe(ranking[["Município", "UF", "Índice de envelhecimento"]])
 # 📈 Aba 4: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
@@ -371,6 +395,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

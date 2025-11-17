@@ -33,15 +33,16 @@ import json
 with open("municipios.geojson", encoding="utf-8") as f:
     geojson_data = json.load(f)
 
-fig = px.choropleth(df,
+fig = px.choropleth(
+    df,
     geojson=geojson_data,
     locations="Municipio",
     featureidkey="properties.name",  # ou ajuste conforme o nome do campo no seu GeoJSON
+    
     color="Índice de envelhecimento",
     hover_name="Município",
     color_continuous_scale="Viridis"
 )
-
     fig.update_geos(fitbounds="locations", visible=False)
     st.plotly_chart(fig, use_container_width=True)
 
@@ -65,6 +66,7 @@ elif aba == "Oportunidades Emergentes":
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     # Espaço para gráfico de linha ou mapa filtrado
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 
 

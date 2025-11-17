@@ -102,8 +102,8 @@ aba = st.sidebar.radio("Escolha uma aba", [
 ])
 
 # 📘 Aba: Sobre o Projeto
-if aba == "📘 Sobre o Projeto":
-    st.header("📘 Economia Prateada no Brasil — Contexto e Intenção")
+if aba == " Sobre o Projeto":
+    st.header(" Economia Prateada no Brasil . Contexto e Intenção")
 
     st.markdown("""
 Imagine o Brasil em 2030: mais da metade dos municípios com população majoritariamente idosa, redes de saúde sobrecarregadas, e uma nova geração de consumidores com tempo, renda e autonomia. Esse futuro não é distante — ele já começou.
@@ -114,7 +114,7 @@ Mais do que um painel de dados, este projeto é uma **ferramenta de antecipaçã
 
 ---
 
-### 🎯 O que o projeto revela
+###  O que o projeto revela
 
 Ao cruzar três indicadores-chave — **Índice de Envelhecimento**, **Renda média da população 60+**, e **Proporção de casais sem filhos** — o dashboard constrói uma visão territorial da Economia Prateada:
 
@@ -124,7 +124,7 @@ Ao cruzar três indicadores-chave — **Índice de Envelhecimento**, **Renda mé
 
 ---
 
-### 🌍 Onde isso impacta
+###  Onde isso impacta
 
 Este projeto impacta diretamente três frentes:
 
@@ -139,7 +139,7 @@ A mudança na estrutura domiciliar — mais casais sem filhos e idosos vivendo s
 
 ---
 
-### 💡 Conclusão
+###  Conclusão
 
 A Economia Prateada não é apenas uma consequência do envelhecimento — é uma **janela estratégica de transformação social e econômica**. Este projeto transforma dados em decisões, mapas em oportunidades, e estatísticas em histórias de futuro.
 
@@ -187,6 +187,7 @@ elif aba == "Ranking de Envelhecimento":
     """)
 
     mais_envelhecido = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).iloc[0]
+    ranking["Município"] = ranking["Município"].str.title()
     st.markdown("### 📌 Destaque:")
     st.markdown(f"""
     - O município mais envelhecido é **{mais_envelhecido['Município'].title()}**, com índice de **{mais_envelhecido['Índice de envelhecimento']:.1f}**  
@@ -202,6 +203,7 @@ elif aba == "Ranking de Envelhecimento":
         title="Top 20 municípios com maior IE",
         labels={"Índice de envelhecimento": "Índice de Envelhecimento"},
     )
+    st.dataframe(ranking[["Município", "UF", "Índice de envelhecimento"]])
     st.plotly_chart(fig_bar, use_container_width=True)
     st.dataframe(top_ie)
 
@@ -369,6 +371,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

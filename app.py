@@ -34,6 +34,8 @@ def carregar_dados():
 # 🔄 Chama a função e limpa os dados
 df = carregar_dados()
 df.columns = df.columns.str.strip()
+df["Renda média 60+"] = pd.to_numeric(df["Renda média 60+"], errors="coerce")
+df.columns = df.columns.str.strip()
 df["Município"] = df["Município"].str.strip().str.lower()
 
 # 🧼 Corrigir e mapear a coluna UF
@@ -54,7 +56,8 @@ df = df.dropna(subset=["UF"]).copy()
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].dropna().unique())
 uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + list(ufs))
-renda_min = st.sidebar.slider("💰 Renda média mínima (60+)", 0, int(df["Renda média 60+"].max()), 0)
+renda_maxima = int(df["Renda média 60+"].dropna().max())
+renda_min = st.sidebar.slider("💰 Renda média mínima (60+)", 0, renda_maxima, 0)
 
 if st.sidebar.button("🔄 Limpar filtros"):
     st.experimental_rerun()
@@ -359,6 +362,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

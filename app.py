@@ -39,6 +39,18 @@ for feature in geojson_data["features"]:
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômicos", "Oportunidades Emergentes"])
 
+# Diagnóstico: verificar se os nomes batem
+nomes_csv = set(df["Município"])
+nomes_geojson = set([f["properties"]["name"] for f in geojson_data["features"]])
+intersecao = nomes_csv.intersection(nomes_geojson)
+
+st.write(f"Municípios no CSV: {len(nomes_csv)}")
+st.write(f"Municípios no GeoJSON: {len(nomes_geojson)}")
+st.write(f"Municípios em comum: {len(intersecao)}")
+
+if len(intersecao) == 0:
+    st.error("⚠️ Nenhum município do CSV foi encontrado no GeoJSON. Verifique se os nomes estão padronizados corretamente.")
+
 # 🗺️ Aba 1: Mapa Interativo
 if aba == "Mapa Interativo":
     st.subheader("🗺️ Mapa Interativo de Envelhecimento")
@@ -74,6 +86,7 @@ elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 
 

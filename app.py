@@ -62,7 +62,7 @@ def geocodificar_municipios(df):
 # ⚠️ Só adiciona se ainda não tiver latitude/longitude
 if "latitude" not in df.columns or "longitude" not in df.columns:
     df = geocodificar_municipios(df)
-
+    
 df = carregar_dados()
 df.columns = df.columns.str.strip()
 df["Município"] = df["Município"].str.strip().str.lower()
@@ -388,6 +388,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

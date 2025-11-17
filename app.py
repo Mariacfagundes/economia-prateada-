@@ -18,8 +18,8 @@ st.markdown("""
 
 # 🎯 Título
 st.markdown("""
-<div style='font-size: 18px; line-height: 1.6'>
-<strong>"O Impacto do Envelhecimento Populacional no Brasil"</strong>,
+<div style='font-size: 28px; font-weight: bold; line-height: 1.4; margin-bottom: 20px;'>
+🌎 O Impacto do Envelhecimento Populacional no Brasil
 </div>
 """, unsafe_allow_html=True)
 
@@ -114,8 +114,10 @@ elif aba == "Indicadores Gerais":
     st.subheader("📊 Indicadores Gerais")
 
     st.markdown("### 🧠 O que este painel mostra:")
+
+    uf_texto = "todo o Brasil" if uf_selecionada == "Todas" else f"o estado de {uf_selecionada}"
     st.markdown(f"""
-    Você selecionou **{uf_selecionada}** com renda mínima de **R$ {renda_min}**.  
+    Você selecionou **{uf_texto}** com renda mínima de **R$ {renda_min}**.  
     Este painel revela o perfil médio da população idosa nesses municípios — incluindo envelhecimento, renda e estrutura familiar.
     """)
 
@@ -229,6 +231,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

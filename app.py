@@ -20,6 +20,7 @@ st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].unique())
 uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + ufs)
 renda_min = st.sidebar.slider("💰 Renda média mínima (60+)", 0, int(df["Renda média 60+"].max()), 0)
+df_filtrado = df[df["Renda média 60+"] >= renda_min]
 
 df_filtrado = df.copy()
 if uf_selecionada != "Todas":
@@ -125,4 +126,5 @@ elif aba == "Sobre a Autora":
     📧 luzfaghundes@gmail.com  
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
+
 

@@ -41,7 +41,7 @@ fig = px.choropleth(df,
     hover_name="Município",
     color_continuous_scale="Viridis"
 )
-    )
+
     fig.update_geos(fitbounds="locations", visible=False)
     st.plotly_chart(fig, use_container_width=True)
 
@@ -65,6 +65,7 @@ elif aba == "Oportunidades Emergentes":
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     # Espaço para gráfico de linha ou mapa filtrado
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 
 
 

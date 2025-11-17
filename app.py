@@ -4,6 +4,18 @@ import plotly.express as px
 
 st.set_page_config(page_title="Economia Prateada no Brasil", layout="wide")
 
+# 🎨 Estilo personalizado
+st.markdown("""
+    <style>
+    body {
+        background-color: #f5f5f5;
+    }
+    .main {
+        background-color: #f5f5f5;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # 🎯 Título
 st.title("🌎 O Impacto do Envelhecimento Populacional no Brasil")
 
@@ -84,35 +96,37 @@ if aba == "Apresentação":
     ### 📌 Conclusão
     A Economia Prateada não é apenas um desafio demográfico — é uma **janela estratégica de inovação social e econômica**.
     """)
+
     st.markdown("### 🧠 O que você verá nas próximas abas:")
-st.markdown("""
-- Indicadores gerais que revelam o perfil da população 60+ no Brasil
-- Ranking dos municípios mais envelhecidos — e o que isso significa
-- Hotspots econômicos com alto potencial de consumo prateado
-- Oportunidades emergentes em cidades que estão envelhecendo rápido
-""")
-    
+    st.markdown("""
+    - Indicadores gerais que revelam o perfil da população 60+ no Brasil  
+    - Ranking dos municípios mais envelhecidos — e o que isso significa  
+    - Hotspots econômicos com alto potencial de consumo prateado  
+    - Oportunidades emergentes em cidades que estão envelhecendo rápido  
+    """)
+
 # 📊 Aba 2: Indicadores Gerais
 elif aba == "Indicadores Gerais":
     st.subheader("📊 Indicadores Gerais")
-# 🧠 Explicação do que esta aba mostra
-st.markdown("### 🧠 O que este painel mostra:")
-st.markdown(f"""
-Você selecionou **{uf_selecionada}** com renda mínima de **R$ {renda_min}**.  
-Este painel revela o perfil médio da população idosa nesses municípios — incluindo envelhecimento, renda e estrutura familiar.
-""")
 
-# 📌 Insight automático
-media_ie = df_filtrado["Índice de envelhecimento"].mean()
-media_renda = df_filtrado["Renda média 60+"].mean()
-st.markdown("### 📌 Insights automáticos:")
-st.markdown(f"""
-- O índice médio de envelhecimento é **{media_ie:.1f}**, indicando uma população idosa significativa.
-- A renda média dos 60+ é **R$ {media_renda:,.0f}**, sugerindo potencial de consumo elevado.
-""")
+    st.markdown("### 🧠 O que este painel mostra:")
+    st.markdown(f"""
+    Você selecionou **{uf_selecionada}** com renda mínima de **R$ {renda_min}**.  
+    Este painel revela o perfil médio da população idosa nesses municípios — incluindo envelhecimento, renda e estrutura familiar.
+    """)
+
+    media_ie = df_filtrado["Índice de envelhecimento"].mean()
+    media_renda = df_filtrado["Renda média 60+"].mean()
+
+    st.markdown("### 📌 Insights automáticos:")
+    st.markdown(f"""
+    - O índice médio de envelhecimento é **{media_ie:.1f}**  
+    - A renda média dos 60+ é **R$ {media_renda:,.0f}**
+    """)
+
     col1, col2, col3 = st.columns(3)
-    col1.metric("📈 Média do Índice de Envelhecimento", f"{df_filtrado['Índice de envelhecimento'].mean():.1f}")
-    col2.metric("💰 Renda Média 60+", f"R$ {df_filtrado['Renda média 60+'].mean():,.0f}")
+    col1.metric("📈 Média do Índice de Envelhecimento", f"{media_ie:.1f}")
+    col2.metric("💰 Renda Média 60+", f"R$ {media_renda:,.0f}")
     col3.metric("🏘️ Municípios Analisados", f"{len(df_filtrado)}")
 
     st.markdown("Distribuição da renda média da população 60+:")
@@ -122,19 +136,20 @@ st.markdown(f"""
 # 🏆 Aba 3: Ranking de Envelhecimento
 elif aba == "Ranking de Envelhecimento":
     st.subheader("🏆 Municípios com maior Índice de Envelhecimento")
-st.markdown("### 🧠 O que este ranking mostra:")
-st.markdown("""
-Aqui estão os 20 municípios com maior proporção de idosos em relação aos jovens.  
-Essas cidades estão na vanguarda da transição demográfica e exigem políticas públicas e soluções de mercado voltadas à longevidade.
-""")
 
-# Insight automático
-mais_envelhecido = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).iloc[0]
-st.markdown("### 📌 Destaque:")
-st.markdown(f"""
-- O município mais envelhecido é **{mais_envelhecido['Município'].title()}**, com índice de **{mais_envelhecido['Índice de envelhecimento']:.1f}**.
-- A renda média da população 60+ nesse município é **R$ {mais_envelhecido['Renda média 60+']:,.0f}**.
-""")
+    st.markdown("### 🧠 O que este ranking mostra:")
+    st.markdown("""
+    Aqui estão os 20 municípios com maior proporção de idosos em relação aos jovens.  
+    Essas cidades estão na vanguarda da transição demográfica e exigem políticas públicas e soluções de mercado voltadas à longevidade.
+    """)
+
+    mais_envelhecido = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).iloc[0]
+    st.markdown("### 📌 Destaque:")
+    st.markdown(f"""
+    - O município mais envelhecido é **{mais_envelhecido['Município'].title()}**, com índice de **{mais_envelhecido['Índice de envelhecimento']:.1f}**  
+    - Renda média 60+: **R$ {mais_envelhecido['Renda média 60+']:,.0f}**
+    """)
+
     top_ie = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).head(20)
     fig_bar = px.bar(
         top_ie,
@@ -150,71 +165,66 @@ st.markdown(f"""
 # 📈 Aba 4: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
-st.markdown("### 🧠 O que este gráfico mostra:")
-st.markdown("""
-Este gráfico cruza três dimensões: envelhecimento, estrutura familiar e renda.  
-Os municípios no canto superior direito são verdadeiros **hotspots da Economia Prateada** — alta concentração de idosos com renda e autonomia.
-""")
 
-# Insight automático
-hotspot = df_filtrado.sort_values(["Índice de envelhecimento", "Renda média 60+"], ascending=False).iloc[0]
-st.markdown("### 📌 Destaque:")
-st.markdown(f"""
-- Um dos principais hotspots é **{hotspot['Município'].title()}**, com índice de envelhecimento de **{hotspot['Índice de envelhecimento']:.1f}**  
-  e renda média 60+ de **R$ {hotspot['Renda média 60+']:,.0f}**.
-""")
-    st.markdown("Explore os municípios com alto índice de envelhecimento e renda média elevada entre idosos.")
-    fig2 = px.scatter(
-        df_filtrado,
-        x="Índice de envelhecimento",
-        y="Proporção casais sem filhos",
-        size="Renda média 60+",
-        hover_name="Município",
-        color="Renda média 60+",
-        title="Dispersão entre IE e estrutura domiciliar"
-    )
-    st.plotly_chart(fig2, use_container_width=True)
+    st.markdown("### 🧠 O que este gráfico mostra:")
+    st.markdown("""
+    Este gráfico cruza três dimensões: envelhecimento, estrutura familiar e renda.  
+    Os municípios no canto superior direito são verdadeiros **hotspots da Economia Prateada** — alta concentração de idosos com renda e autonomia.
+    """)
 
-# 🔍 Aba 5: Oportunidades Emergentes
+    hotspot = df_filtrado.sort
+
+     # 🔍 Aba 5: Oportunidades Emergentes
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
-st.markdown("### 🧠 O que este painel revela:")
-st.markdown("""
-Nem toda cidade com baixo índice de envelhecimento deve ser ignorada.  
-Este painel destaca municípios com **renda elevada e estrutura familiar propícia**, que estão envelhecendo rapidamente e oferecem oportunidades emergentes.
-""")
 
-# Insight automático
-emergente = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False).head(1)
-if not emergente.empty:
-    cidade = emergente.iloc[0]["Município"].title()
-    renda = emergente.iloc[0]["Renda média 60+"]
-    st.markdown("### 📌 Destaque:")
-    st.markdown(f"""
-    - O município emergente com maior renda é **{cidade}**, com renda média 60+ de **R$ {renda:,.0f}**.
-    """)
+    st.markdown("### 🧠 O que este painel revela:")
     st.markdown("""
-    Nem todos os municípios com baixo índice de envelhecimento devem ser ignorados. Alguns apresentam renda elevada e estrutura familiar propícia para o crescimento da Economia Prateada.
+    Nem toda cidade com baixo índice de envelhecimento deve ser ignorada.  
+    Este painel destaca municípios com **renda elevada e estrutura familiar propícia**, que estão envelhecendo rapidamente e oferecem oportunidades emergentes.
     """)
+
+    emergente = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False).head(1)
+    if not emergente.empty:
+        cidade = emergente.iloc[0]["Município"].title()
+        renda = emergente.iloc[0]["Renda média 60+"]
+        st.markdown("### 📌 Destaque:")
+        st.markdown(f"""
+        - O município emergente com maior renda é **{cidade}**, com renda média 60+ de **R$ {renda:,.0f}**.
+        """)
+
     filtro = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False)
     st.dataframe(filtro.head(20))
 
-# 👩‍💻 Aba 6: Sobre a Autora
+    # 👩‍💻 Aba 6: Sobre a Autora
 elif aba == "Sobre a Autora":
     st.subheader("👩‍💻 Sobre a Autora")
+
     st.markdown("""
-    **Maria Clara Fagundes**  
-    📍 Salvador, Bahia  
-    💼 Engenheira de Dados  
-
-    Apaixonada por transformar dados públicos em soluções estratégicas.  
-    Este projeto foi desenvolvido como parte do desafio “O Impacto do Envelhecimento Populacional no Brasil”, com foco em revelar oportunidades sociais e econômicas ligadas à Economia Prateada.
-
-    📧 luzfaghundes@gmail.com  
-    🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
-    """)
-
-# 📌 Rodapé
-st.markdown("---")
-st.markdown("📊 Desenvolvido por Maria Clara Fagundes • Desafio Economia Prateada • 2025")
+    <div style='font-size: 18px; line-height: 1.6'>
+    <strong>Maria Clara Fagundes</strong>  
+    📍 <em>Salvador, Bahia</em>  
+    💼 <em>Engenheira de Dados</em>  
+    <br><br>
+    Apaixonada por transformar dados públicos em soluções estratégicas e acessíveis.  
+    Atua na interseção entre tecnologia, impacto social e inteligência territorial.  
+    <br><br>
+    Este projeto foi desenvolvido como parte do desafio  
+    <strong>“O Impacto do Envelhecimento Populacional no Brasil”</strong>,  
+    com o objetivo de revelar oportunidades sociais e econômicas ligadas à  
+    <strong>Economia Prateada</strong>.
+    <br><br>
+    📧 <a href="mailto:luzfaghundes@gmail.com">luzfaghundes@gmail.com</a>  
+    🔗 <a href="https://www.linkedin.com/in/maria-clara-fagundes-32027680/" target="_blank">LinkedIn</a>  
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # 📌 Rodapé
+   st.markdown("---")
+   st.markdown("""
+   <div style='text-align: center; font-size: 16px;'>
+  📊 <strong>Desenvolvido por Maria Clara Fagundes</strong>  
+  Desafio <em>Economia Prateada</em> • 2025
+  </div>
+""", unsafe_allow_html=True)
 

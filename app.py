@@ -29,41 +29,7 @@ st.markdown("""
 # 📁 Carregar dados
 @st.cache_data
 def carregar_dados():
-    return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
-
-# 📍 Geocodificar municípios
-@st.cache_data
-def geocodificar_municipios(df):
-    geolocator = Nominatim(user_agent="economia_prateada")
-    geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
-
-    latitudes = []
-    longitudes = []
-
-    for _, row in df.iterrows():
-        nome = row["Município"].title()
-        uf = row["UF"]
-        local = f"{nome}, {uf}, Brasil"
-        try:
-            location = geocode(local)
-            if location:
-                latitudes.append(location.latitude)
-                longitudes.append(location.longitude)
-            else:
-                latitudes.append(None)
-                longitudes.append(None)
-        except:
-            latitudes.append(None)
-            longitudes.append(None)
-
-    df["latitude"] = latitudes
-    df["longitude"] = longitudes
-    return df
-
-# 🔄 Carrega os dados e aplica geocodificação se necessário
-df = carregar_dados()
-if "latitude" not in df.columns or "longitude" not in df.columns:
-    df = geocodificar_municipios(df)
+    df = pd.read_csv("dados_com_geo.csv", encoding="utf-8")
     
 df = carregar_dados()
 df.columns = df.columns.str.strip()
@@ -392,6 +358,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

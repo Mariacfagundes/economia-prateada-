@@ -18,7 +18,7 @@ st.markdown("""
 
 # 🎯 Título
 st.markdown("""
-<div style='font-size: 28px; font-weight: bold; line-height: 1.4; margin-bottom: 20px;'>
+<div style='font-size: 36px; font-weight: bold; line-height: 1.3; margin-bottom: 20px;'>
 🌎 O Impacto do Envelhecimento Populacional no Brasil
 </div>
 """, unsafe_allow_html=True)
@@ -231,6 +231,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

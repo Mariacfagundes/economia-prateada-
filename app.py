@@ -9,7 +9,6 @@ st.title("🌎 O Impacto do Envelhecimento Populacional no Brasil")
 
 # 📁 Carregar dados
 @st.cache_data
-@st.cache_data
 def carregar_dados():
     return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
 
@@ -17,7 +16,7 @@ df = carregar_dados()
 df.columns = df.columns.str.strip()
 df["Município"] = df["Município"].str.strip().str.lower()
 
-# Corrigir a coluna UF para mostrar siglas
+# 🧼 Corrigir e mapear a coluna UF
 uf_map = {
     "11": "RO", "12": "AC", "13": "AM", "14": "RR", "15": "PA", "16": "AP", "17": "TO",
     "21": "MA", "22": "PI", "23": "CE", "24": "RN", "25": "PB", "26": "PE", "27": "AL", "28": "SE", "29": "BA",
@@ -25,25 +24,31 @@ uf_map = {
     "41": "PR", "42": "SC", "43": "RS",
     "50": "MS", "51": "MT", "52": "GO", "53": "DF"
 }
-df["UF"] = (
-    df["UF"]
-    .dropna()  # remove valores nulos
-    .astype(float)
-    .astype(int)
-    .astype(str)
-    .map(uf_map)
-)
+
+df["UF"] = pd.to_numeric(df["UF"], errors="coerce")
+df = df.dropna(subset=["UF"]).copy()
+df["UF"] = df["UF"].astype(int).astype(str).map(uf_map)
+df = df.dropna(subset=["UF"]).copy()
+
 # 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
-ufs = sorted(df["UF"].dropna().astype(str).unique())
-uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + ufs)
+ufs = sorted(df["UF"].dropna().unique())
+uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + list(ufs))
 renda_min = st.sidebar.slider("💰 Renda média mínima (60+)", 0, int(df["Renda média 60+"].max()), 0)
-df_filtrado = df.copy()
 
+if st.sidebar.button("🔄 Limpar filtros"):
+    st.experimental_rerun()
+
+# Aplicar filtros
+df_filtrado = df.copy()
 if uf_selecionada != "Todas":
     df_filtrado = df_filtrado[df_filtrado["UF"] == uf_selecionada]
-
 df_filtrado = df_filtrado[df_filtrado["Renda média 60+"] >= renda_min]
+
+# 🔍 Diagnóstico rápido
+if df_filtrado.empty:
+    st.warning("⚠️ Nenhum município encontrado com os filtros selecionados.")
+    st.stop()
 
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", [
@@ -54,6 +59,7 @@ aba = st.sidebar.radio("Escolha uma aba", [
 # 📘 Aba 1: Apresentação
 if aba == "Apresentação":
     st.header("📘 Apresentação do Projeto")
+    st.success("Bem-vinda ao painel da Economia Prateada! Explore os dados e descubra oportunidades.")
     st.markdown("""
     O Brasil está envelhecendo — e rápido. Com base no Censo 2022, este projeto analisa o avanço da **Economia Prateada**, um mercado em expansão voltado para a população com 60 anos ou mais.
 
@@ -145,14 +151,6 @@ elif aba == "Sobre a Autora":
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
 
-
-
-
-
-
-
-
-
-
-
-
+# 📌 Rodapé
+st.markdown("---")
+st.markdown("📊 Desenvolvido por Maria Clara Fagundes • Desafio Economia Prateada • 2025")

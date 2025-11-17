@@ -257,10 +257,10 @@ elif aba == "Índice Prateado":
     st.markdown("### 🧠 O que este índice revela:")
     st.markdown("""
     st.markdown("""
-📖 **Como interpretar o Índice Prateado:**  
-O Índice Prateado varia de 0 a 1 e representa o potencial estratégico de um município na Economia Prateada.  
-**Quanto mais próximo de 1, melhores são as condições de vida e oportunidades para a população 60+.**
-""")
+    📖 **Como interpretar o Índice Prateado:**  
+     O Índice Prateado varia de 0 a 1 e representa o potencial estratégico de um município na Economia Prateada.  
+     **Quanto mais próximo de 1, melhores são as condições de vida e oportunidades para a população 60+.**
+    """)
     O Índice Prateado foi criado para sintetizar três dimensões fundamentais da Economia Prateada:
 
     - **Envelhecimento**: revela a proporção de idosos em relação aos jovens  
@@ -360,6 +360,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

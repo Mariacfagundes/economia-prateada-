@@ -89,36 +89,50 @@ aba = st.sidebar.radio("Escolha uma aba", [
 ])
 
 # 📘 Aba 1: Sobre o Projeto
+# 📘 Aba: Sobre o Projeto
 if aba == "📘 Sobre o Projeto":
     st.header("📘 Economia Prateada no Brasil — Contexto e Intenção")
 
     st.markdown("""
-    Imagine o Brasil em 2030: mais da metade dos municípios com população majoritariamente idosa, redes de saúde sobrecarregadas, e uma nova geração de consumidores com tempo, renda e autonomia. Esse futuro não é distante — ele já começou.
+Imagine o Brasil em 2030: mais da metade dos municípios com população majoritariamente idosa, redes de saúde sobrecarregadas, e uma nova geração de consumidores com tempo, renda e autonomia. Esse futuro não é distante — ele já começou.
 
-    O projeto **"Economia Prateada no Brasil"** nasce como resposta a essa transformação silenciosa, mas profunda. Com base nos dados do **Censo Demográfico 2022**, o dashboard interativo revela onde o envelhecimento populacional está mais avançado, onde há maior poder de consumo entre os 60+, e onde a estrutura familiar aponta para novas demandas sociais.
+O projeto **"Economia Prateada no Brasil"** nasce como resposta a essa transformação silenciosa, mas profunda. Com base nos dados do **Censo Demográfico 2022**, o dashboard interativo revela onde o envelhecimento populacional está mais avançado, onde há maior poder de consumo entre os 60+, e onde a estrutura familiar aponta para novas demandas sociais.
 
-    Mais do que um painel de dados, este projeto é uma **ferramenta de antecipação estratégica** — para gestores públicos que precisam planejar políticas de saúde, moradia e mobilidade, e para investidores que buscam oportunidades em serviços voltados à longevidade.
+Mais do que um painel de dados, este projeto é uma **ferramenta de antecipação estratégica** — para gestores públicos que precisam planejar políticas de saúde, moradia e mobilidade, e para investidores que buscam oportunidades em serviços voltados à longevidade.
 
-    ### 🎯 O que o projeto revela
-    - **Hotspots consolidados** no Sul e Sudeste com alta concentração de idosos com renda e autonomia
-    - **Oportunidades emergentes** no Norte e Nordeste com envelhecimento acelerado e estrutura familiar propícia
-    - **Índice Prateado**: métrica composta que permite comparar municípios de forma objetiva
+---
 
-    ### 🌍 Impacto
-    **1. Gestão Pública**  
-    Municípios com alto Índice Prateado exigem políticas específicas: unidades de saúde adaptadas, transporte acessível, moradias inclusivas e redes de apoio comunitário. O dashboard permite que gestores priorizem recursos com base em evidências territoriais.
+### 🎯 O que o projeto revela
 
-    **2. Investimento Privado**  
-    Empreendedores podem identificar cidades onde há demanda reprimida por serviços como home care, academias para idosos, turismo sênior, e tecnologia assistiva. O painel aponta onde o mercado já existe — e onde está prestes a surgir.
+Ao cruzar três indicadores-chave — **Índice de Envelhecimento**, **Renda média da população 60+**, e **Proporção de casais sem filhos** — o dashboard constrói uma visão territorial da Economia Prateada:
 
-    **3. Inovação Social**  
-    A mudança na estrutura domiciliar — mais casais sem filhos e idosos vivendo sozinhos — exige novas soluções: redes de vizinhança, plataformas de cuidado, e serviços personalizados. O projeto inspira inovação com base em dados reais.
+- **Hotspots consolidados**: Municípios do Sul e Sudeste com alta concentração de idosos com renda e autonomia, prontos para receber investimentos em saúde, lazer, moradia assistida e tecnologia.
+- **Oportunidades emergentes**: Cidades do Norte e Nordeste com envelhecimento acelerado e estrutura familiar propícia, onde o mercado ainda está em formação — mas com alto potencial.
+- **Índice Prateado**: Uma métrica composta que sintetiza os três fatores e permite comparar municípios de forma objetiva, revelando onde há maior urgência e oportunidade.
 
-    ### 💡 Conclusão
-    A Economia Prateada não é apenas uma consequência do envelhecimento — é uma **janela estratégica de transformação social e econômica**. Este projeto transforma dados em decisões, mapas em oportunidades, e estatísticas em histórias de futuro.
+---
 
-    Você não está apenas vendo números. Está enxergando o Brasil que está por vir — e decidindo como agir agora.
-    """)
+### 🌍 Onde isso impacta
+
+Este projeto impacta diretamente três frentes:
+
+#### 1. Gestão Pública
+Municípios com alto Índice Prateado exigem políticas específicas: unidades de saúde adaptadas, transporte acessível, moradias inclusivas e redes de apoio comunitário. O dashboard permite que gestores priorizem recursos com base em evidências territoriais.
+
+#### 2. Investimento Privado
+Empreendedores podem identificar cidades onde há demanda reprimida por serviços como home care, academias para idosos, turismo sênior, e tecnologia assistiva. O painel aponta onde o mercado já existe — e onde está prestes a surgir.
+
+#### 3. Inovação Social
+A mudança na estrutura domiciliar — mais casais sem filhos e idosos vivendo sozinhos — exige novas soluções: redes de vizinhança, plataformas de cuidado, e serviços personalizados. O projeto inspira inovação com base em dados reais.
+
+---
+
+### 💡 Conclusão
+
+A Economia Prateada não é apenas uma consequência do envelhecimento — é uma **janela estratégica de transformação social e econômica**. Este projeto transforma dados em decisões, mapas em oportunidades, e estatísticas em histórias de futuro.
+
+Você não está apenas vendo números. Está enxergando o Brasil que está por vir — e decidindo como agir agora.
+""")
 # 📊 Aba 2: Indicadores Gerais
 elif aba == "Indicadores Gerais":
     st.subheader("📊 Indicadores Gerais")
@@ -322,6 +336,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

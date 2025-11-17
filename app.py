@@ -9,10 +9,12 @@ st.title("🌎 O Impacto do Envelhecimento Populacional no Brasil")
 
 # 📁 Carregar dados
 @st.cache_data
+@st.cache_data
 def carregar_dados():
-    return pd.read_csv("dados_final.csv")
+    return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
 
 df = carregar_dados()
+df.columns = df.columns.str.strip()
 df["Município"] = df["Município"].str.strip().str.lower()
 
 # 🎛️ Filtros interativos
@@ -127,6 +129,7 @@ elif aba == "Sobre a Autora":
     📧 luzfaghundes@gmail.com  
     🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
     """)
+
 
 
 

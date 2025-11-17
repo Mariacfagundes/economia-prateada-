@@ -1,38 +1,21 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import json
 
 st.set_page_config(page_title="Economia Prateada no Brasil", layout="wide")
 
-# 🎯 Título e introdução
+# 🎯 Título
 st.title("🌎 O Impacto do Envelhecimento Populacional no Brasil")
-st.markdown("""
-O Brasil está passando por uma transição demográfica acelerada. Este dashboard explora os dados do Censo 2022 para identificar **hotspots da Economia Prateada**, cruzando indicadores como:
-- Índice de Envelhecimento
-- Proporção de casais sem filhos
-- Renda média da população 60+
-""")
 
 # 📁 Carregar dados
 @st.cache_data
 def carregar_dados():
     return pd.read_csv("dados_final.csv")
 
-@st.cache_data
-def carregar_geojson():
-    with open("municipios.geojson", encoding="utf-8") as f:
-        return json.load(f)
-
 df = carregar_dados()
-geojson_data = carregar_geojson()
-
-# Padronizar nomes
 df["Município"] = df["Município"].str.strip().str.lower()
-for feature in geojson_data["features"]:
-    feature["properties"]["name"] = feature["properties"]["name"].strip().lower()
 
-# 🧩 Filtros interativos
+# 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].unique())
 uf_selecionada = st.sidebar.selectbox("📍 Filtrar por UF", options=["Todas"] + ufs)
@@ -44,28 +27,70 @@ if uf_selecionada != "Todas":
 df_filtrado = df_filtrado[df_filtrado["Renda média 60+"] >= renda_min]
 
 # 🗂️ Menu de navegação
-aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômicos", "Oportunidades Emergentes"])
+aba = st.sidebar.radio("Escolha uma aba", [
+    "Apresentação", "Indicadores Gerais", "Ranking de Envelhecimento",
+    "Hotspots Econômicos", "Oportunidades Emergentes", "Sobre a Autora"
+])
 
-# 🗺️ Aba 1: Mapa Interativo
-if aba == "Mapa Interativo":
-    st.subheader("🗺️ Mapa Interativo de Envelhecimento")
-    fig = px.choropleth(
-        df_filtrado,
-        geojson=geojson_data,
-        locations="Município",
-        featureidkey="properties.name",
-        color="Índice de envelhecimento",
-        hover_name="Município",
-        color_continuous_scale="Viridis"
+# 📘 Aba 1: Apresentação
+if aba == "Apresentação":
+    st.header("📘 Apresentação do Projeto")
+    st.markdown("""
+    O Brasil está envelhecendo — e rápido. Com base no Censo 2022, este projeto analisa o avanço da **Economia Prateada**, um mercado em expansão voltado para a população com 60 anos ou mais.
+
+    ### 🎯 Objetivo
+    Identificar municípios com alto potencial de consumo, demanda social e oportunidades de investimento para a população idosa.
+
+    ### 🔍 Metodologia
+    Cruzamos três indicadores:
+    - **Índice de Envelhecimento**
+    - **Proporção de casais sem filhos**
+    - **Renda média da população 60+**
+
+    ### 💡 Principais Insights
+    - Municípios do Sul e Sudeste concentram os maiores índices de envelhecimento e renda.
+    - Regiões do Norte e Nordeste apresentam **tendência de envelhecimento acelerado**, com oportunidades emergentes.
+    - A estrutura domiciliar (casais sem filhos) reforça o potencial de consumo e necessidade de serviços personalizados.
+
+    ### 🧭 Público-Alvo
+    - **Gestores públicos**: para políticas de saúde, moradia e mobilidade.
+    - **Empreendedores e investidores**: para identificar hotspots de mercado prateado.
+
+    ### 📌 Conclusão
+    A Economia Prateada não é apenas um desafio demográfico — é uma **janela estratégica de inovação social e econômica**.
+    """)
+
+# 📊 Aba 2: Indicadores Gerais
+elif aba == "Indicadores Gerais":
+    st.subheader("📊 Indicadores Gerais")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("📈 Média do Índice de Envelhecimento", f"{df_filtrado['Índice de envelhecimento'].mean():.1f}")
+    col2.metric("💰 Renda Média 60+", f"R$ {df_filtrado['Renda média 60+'].mean():,.0f}")
+    col3.metric("🏘️ Municípios Analisados", f"{len(df_filtrado)}")
+
+    st.markdown("Distribuição da renda média da população 60+:")
+    fig_hist = px.histogram(df_filtrado, x="Renda média 60+", nbins=30, color_discrete_sequence=["#636EFA"])
+    st.plotly_chart(fig_hist, use_container_width=True)
+
+# 🏆 Aba 3: Ranking de Envelhecimento
+elif aba == "Ranking de Envelhecimento":
+    st.subheader("🏆 Municípios com maior Índice de Envelhecimento")
+    top_ie = df_filtrado.sort_values("Índice de envelhecimento", ascending=False).head(20)
+    fig_bar = px.bar(
+        top_ie,
+        x="Município",
+        y="Índice de envelhecimento",
+        color="Renda média 60+",
+        title="Top 20 municípios com maior IE",
+        labels={"Índice de envelhecimento": "Índice de Envelhecimento"},
     )
-    fig.update_geos(fitbounds="locations", visible=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig_bar, use_container_width=True)
+    st.dataframe(top_ie)
 
-# 📈 Aba 2: Hotspots Econômicos
+# 📈 Aba 4: Hotspots Econômicos
 elif aba == "Hotspots Econômicos":
     st.subheader("📈 Hotspots da Economia Prateada")
     st.markdown("Explore os municípios com alto índice de envelhecimento e renda média elevada entre idosos.")
-
     fig2 = px.scatter(
         df_filtrado,
         x="Índice de envelhecimento",
@@ -77,15 +102,26 @@ elif aba == "Hotspots Econômicos":
     )
     st.plotly_chart(fig2, use_container_width=True)
 
-    st.markdown("🏆 Ranking dos municípios com maior índice de envelhecimento:")
-    st.dataframe(df_filtrado.sort_values("Índice de envelhecimento", ascending=False).head(20))
-
-# 🔍 Aba 3: Oportunidades Emergentes
+# 🔍 Aba 5: Oportunidades Emergentes
 elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("""
-Nem todos os municípios com baixo índice de envelhecimento devem ser ignorados. Alguns apresentam renda elevada e estrutura familiar propícia para o crescimento da Economia Prateada.
-""")
+    Nem todos os municípios com baixo índice de envelhecimento devem ser ignorados. Alguns apresentam renda elevada e estrutura familiar propícia para o crescimento da Economia Prateada.
+    """)
     filtro = df_filtrado[df_filtrado["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False)
     st.dataframe(filtro.head(20))
 
+# 👩‍💻 Aba 6: Sobre a Autora
+elif aba == "Sobre a Autora":
+    st.subheader("👩‍💻 Sobre a Autora")
+    st.markdown("""
+    **Maria Clara Fagundes**  
+    📍 Salvador, Bahia  
+    💼 Engenheira de Dados  
+
+    Apaixonada por transformar dados públicos em soluções estratégicas.  
+    Este projeto foi desenvolvido como parte do desafio “O Impacto do Envelhecimento Populacional no Brasil”, com foco em revelar oportunidades sociais e econômicas ligadas à Economia Prateada.
+
+    📧 luzfaghundes@gmail.com  
+    🔗 [LinkedIn](https://www.linkedin.com/in/maria-clara-fagundes-32027680/)
+    """)

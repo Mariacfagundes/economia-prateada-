@@ -31,6 +31,11 @@ def carregar_geojson():
 
 geojson_data = carregar_geojson()
 
+# Padronizar nomes
+df["Município"] = df["Município"].str.strip().str.lower()
+for feature in geojson_data["features"]:
+    feature["properties"]["name"] = feature["properties"]["name"].strip().lower()
+
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", ["Mapa Interativo", "Hotspots Econômicos", "Oportunidades Emergentes"])
 
@@ -69,4 +74,5 @@ elif aba == "Oportunidades Emergentes":
     st.subheader("🔍 Municípios com crescimento acelerado da população 60+")
     st.markdown("Aqui você pode destacar municípios com IE baixo, mas tendência forte de envelhecimento.")
     st.dataframe(df[df["Índice de envelhecimento"] < 30].sort_values("Renda média 60+", ascending=False))
+
 

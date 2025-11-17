@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+
 
 st.set_page_config(page_title="Economia Prateada no Brasil", layout="wide")
 
@@ -28,9 +31,7 @@ st.markdown("""
 def carregar_dados():
     return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
 
-from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
-
+# 📍 Geocodificar municípios
 @st.cache_data
 def geocodificar_municipios(df):
     geolocator = Nominatim(user_agent="economia_prateada")
@@ -59,7 +60,8 @@ def geocodificar_municipios(df):
     df["longitude"] = longitudes
     return df
 
-# ⚠️ Só adiciona se ainda não tiver latitude/longitude
+# 🔄 Carrega os dados e aplica geocodificação se necessário
+df = carregar_dados()
 if "latitude" not in df.columns or "longitude" not in df.columns:
     df = geocodificar_municipios(df)
     
@@ -330,17 +332,19 @@ elif aba == "Mapa Interativo":
     e cor de acordo com o Índice Prateado — uma métrica composta que sintetiza envelhecimento, renda e estrutura familiar.
     """)
 
+    df_filtrado = df.copy()
+
     if df_filtrado.empty:
         st.warning("Nenhum município atende aos critérios selecionados.")
     else:
-        df_filtrado = df_filtrado.copy()
-
+        # Cria o índice prateado se ainda não existir
         if "Índice Prateado" not in df_filtrado.columns:
             df_filtrado["IE_norm"] = (df_filtrado["Índice de envelhecimento"] - df_filtrado["Índice de envelhecimento"].min()) / (df_filtrado["Índice de envelhecimento"].max() - df_filtrado["Índice de envelhecimento"].min())
             df_filtrado["Renda_norm"] = (df_filtrado["Renda média 60+"] - df_filtrado["Renda média 60+"].min()) / (df_filtrado["Renda média 60+"].max() - df_filtrado["Renda média 60+"].min())
             df_filtrado["Casais_norm"] = (df_filtrado["Proporção casais sem filhos"] - df_filtrado["Proporção casais sem filhos"].min()) / (df_filtrado["Proporção casais sem filhos"].max() - df_filtrado["Proporção casais sem filhos"].min())
             df_filtrado["Índice Prateado"] = (df_filtrado["IE_norm"] + df_filtrado["Renda_norm"] + df_filtrado["Casais_norm"]) / 3
 
+        # Gera o mapa
         fig_map = px.scatter_mapbox(
             df_filtrado.dropna(subset=["latitude", "longitude"]),
             lat="latitude",
@@ -388,6 +392,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

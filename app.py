@@ -29,7 +29,7 @@ st.markdown("""
 # 📁 Carregar dados
 @st.cache_data
 def carregar_dados():
-   return pd.read_csv("dados_com_geo.csv", encoding="utf-8", sep="\t")
+   return pd.read_csv("dados_final_com_uf.csv", encoding="utf-8")
 
 # 🔄 Chama a função e limpa os dados
 df = carregar_dados()
@@ -328,6 +328,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

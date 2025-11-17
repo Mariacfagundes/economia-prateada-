@@ -69,7 +69,7 @@ if df_filtrado.empty:
 # 🗂️ Menu de navegação
 aba = st.sidebar.radio("Escolha uma aba", [
     "Apresentação", "Indicadores Gerais", "Ranking de Envelhecimento",
-    "Hotspots Econômicos", "Oportunidades Emergentes", "Sobre a Autora"
+    "Hotspots Econômicos", "Índice Prateado", "Oportunidades Emergentes", "Sobre a Autora"
 ])
 
 # 📘 Aba 1: Apresentação
@@ -312,6 +312,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

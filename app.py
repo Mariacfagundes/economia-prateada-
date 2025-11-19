@@ -91,8 +91,8 @@ else:
     )
 
 if st.sidebar.button("🔄 Limpar filtros", key="reset_button"):
-    st.session_state.uf_selecionada = "Todas"
-    st.session_state.renda_min = 0
+    st.session_state["uf_selecionada"] = "Todas"
+    st.session_state["renda_min"] = 0
 
 # Aplicar filtros com proteção
 df_filtrado = df.copy()
@@ -410,6 +410,7 @@ st.markdown("""
 • <em>Conexão desenvolve - Gamificação </em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

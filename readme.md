@@ -1,7 +1,7 @@
 # Economia Prateada no Brasil
 
 <p align="center">
-  <img src="docs/logo.png" alt="Logo Economia Prateada" width="150"/>
+  <img src="docs/logo.png.png" alt="Logo Economia Prateada" width="150"/>
 </p>
 
 ## Desafio
@@ -67,3 +67,4 @@ O dashboard cruza indicadores estratégicos para revelar onde o envelhecimento p
 
 **Maria Clara Fagundes – Salvador, BA**  
 Conexão Desenvolve – Gamificação • 2025
+

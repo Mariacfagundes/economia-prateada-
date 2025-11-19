@@ -396,9 +396,10 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; font-size: 16px;'>
 📊 <strong>Desenvolvido por Maria Clara Fagundes</strong>  
-Desafio <em>Conexão desenvolve - Gamificação </em> • 2025
+• <em>Conexão desenvolve - Gamificação </em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

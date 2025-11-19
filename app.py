@@ -382,7 +382,7 @@ elif aba == "Sobre a Autora":
     <em>Engenheira de Dados</em><br><br>
     Apaixonada por transformar dados públicos em soluções estratégicas e acessíveis.<br>
     Atua na interseção entre tecnologia, impacto social e inteligência territorial.<br><br>
-    Este projeto foi desenvolvido como parte do desafio<br>
+    Este projeto foi desenvolvido como parte do desafio Conexão desenvolve - Gamificação 2025. Com o tema<br>
     <strong>"O Impacto do Envelhecimento Populacional no Brasil"</strong>,<br>
     com o objetivo de revelar oportunidades sociais e econômicas ligadas à<br>
     <strong>Economia Prateada</strong>.<br><br>
@@ -396,9 +396,10 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; font-size: 16px;'>
 📊 <strong>Desenvolvido por Maria Clara Fagundes</strong>  
-Desafio <em>Economia Prateada</em> • 2025
+Desafio <em>Conexão desenvolve - Gamificação 2025</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

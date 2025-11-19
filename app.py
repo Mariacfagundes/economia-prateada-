@@ -72,30 +72,34 @@ st.sidebar.image("logo.png.png", use_column_width=True)
 st.sidebar.header("🎛️ Filtros")
 ufs = sorted(df["UF"].dropna().unique())
 
-# Selectbox com chave
+# Inicializa valores padrão se não existirem
+if "uf_selecionada" not in st.session_state:
+    st.session_state["uf_selecionada"] = "Todas"
+if "renda_min" not in st.session_state:
+    st.session_state["renda_min"] = 0
+
+# Usa os valores do session_state como padrão
 uf_selecionada = st.sidebar.selectbox(
     "📍 Filtrar por UF",
     options=["Todas"] + list(ufs),
-    key="uf_selecionada"
+    index=(["Todas"] + list(ufs)).index(st.session_state["uf_selecionada"])
 )
 
 renda_max = df["Renda média 60+"].dropna().max()
-
 if pd.isna(renda_max):
     st.error("❌ Nenhum valor válido encontrado na coluna 'Renda média 60+'. Verifique o CSV.")
 else:
     renda_maxima = int(renda_max)
-    # Slider com chave
     renda_min = st.sidebar.slider(
         "💰 Renda média mínima (60+)",
-        0, renda_maxima, 0,
-        key="renda_min"
+        0, renda_maxima, st.session_state["renda_min"]
     )
 
-# Botão de limpar filtros
-if st.sidebar.button("🔄 Limpar filtros", key="reset_button"):
+# Botão de limpar filtros: redefine os valores no estado
+if st.sidebar.button("🔄 Limpar filtros"):
     st.session_state["uf_selecionada"] = "Todas"
     st.session_state["renda_min"] = 0
+    st.experimental_rerun()  # força re-renderização para aplicar os novos padrões
 
 # Aplicar filtros com proteção
 df_filtrado = df.copy()
@@ -413,6 +417,7 @@ st.markdown("""
 • <em>Conexão desenvolve - Gamificação </em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

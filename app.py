@@ -72,40 +72,31 @@ st.sidebar.image("logo.png.png", use_column_width=True)
 # 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
 
-# Inicializa valores padrão no session_state (se ainda não existirem)
-if "uf_selecionada" not in st.session_state:
-    st.session_state["uf_selecionada"] = "Todas"
-if "renda_min" not in st.session_state:
-    st.session_state["renda_min"] = 0
-
-# Opções de UF
 ufs = sorted(df["UF"].dropna().unique())
-uf_options = ["Todas"] + list(ufs)
 
-# Selectbox ligado ao session_state
+# Selectbox com chave
 uf_selecionada = st.sidebar.selectbox(
     "📍 Filtrar por UF",
-    options=uf_options,
-    index=uf_options.index(st.session_state["uf_selecionada"]),
+    options=["Todas"] + list(ufs),
     key="uf_selecionada"
 )
 
-# Slider ligado ao session_state
 renda_max = df["Renda média 60+"].dropna().max()
+
 if pd.isna(renda_max):
     st.error("❌ Nenhum valor válido encontrado na coluna 'Renda média 60+'. Verifique o CSV.")
 else:
     renda_maxima = int(renda_max)
+    # Slider com chave
     renda_min = st.sidebar.slider(
         "💰 Renda média mínima (60+)",
-        0, renda_maxima, st.session_state["renda_min"],
+        0, renda_maxima, 0,
         key="renda_min"
     )
 
-# Botão de limpar filtros
+# Botão de limpar filtros → limpa todo o session_state
 if st.sidebar.button("🔄 Limpar filtros", key="reset_button"):
-    st.session_state["uf_selecionada"] = "Todas"
-    st.session_state["renda_min"] = 0
+    st.session_state.clear()
 
 # Aplicar filtros com proteção
 df_filtrado = df.copy()
@@ -423,6 +414,7 @@ st.markdown("""
 • <em>Conexão desenvolve - Gamificação </em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

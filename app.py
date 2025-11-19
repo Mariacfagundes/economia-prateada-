@@ -66,7 +66,7 @@ df["UF"] = df["UF"].astype(int).astype(str).map(uf_map)
 df = df.dropna(subset=["UF"]).copy()
 
 # Logo no topo do sidebar
-st.sidebar.image("logo.png", use_column_width=True)
+st.sidebar.image("logo.png.png", use_column_width=True)
 
 # 🎛️ Filtros interativos
 st.sidebar.header("🎛️ Filtros")
@@ -399,6 +399,7 @@ st.markdown("""
 Desafio <em>Economia Prateada</em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 

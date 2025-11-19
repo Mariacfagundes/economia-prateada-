@@ -11,10 +11,10 @@ st.set_page_config(page_title="Economia Prateada no Brasil", layout="wide")
 st.markdown("""
     <style>
     body {
-        background-color: #f5f5f5;
+        background-color: #E6E6FA; /* lilás claro */
     }
     .main {
-        background-color: #f5f5f5;
+        background-color: #E6E6FA; /* lilás claro */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -414,6 +414,7 @@ st.markdown("""
 • <em>Conexão desenvolve - Gamificação </em> • 2025
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
